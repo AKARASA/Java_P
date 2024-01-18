@@ -1,4 +1,4 @@
-FROM petechua/docker-vulnerable-dvwa:latest  # Base image with known vulnerabilities
+FROM petechua/docker-vulnerable-dvwa:latest
 
 # Install Maven
 RUN apt-get update && apt-get install -y maven
@@ -21,7 +21,7 @@ USER tomcat  # Adjust if the base image uses a different user
 
 # Deploy the WAR file to the servlet container's webapps directory
 # Assuming the WAR file name is my-app.war
-COPY target/Web1.war /opt/tomcat/webapps/
+COPY target/my-app.war /usr/local/tomcat/webapps/
 
 # CMD to start the servlet container (assuming the default CMD from the base image is suitable)
 CMD ["catalina.sh", "run"]
