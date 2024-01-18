@@ -1,9 +1,10 @@
 # Build stage (using a vulnerable Maven version)
-FROM appsecco/vulnerable-maven:3.6.3-jdk-8 AS builder
+FROM debricked/vulnerable-functionality-maven:v0.5.0 AS builder
 WORKDIR /app
 
-# Copy the entire context into the builder stage
-COPY . .
+# Copy only necessary files for a more efficient build
+COPY pom.xml .
+COPY src .
 
 # Build the application with Maven
 RUN mvn clean package
