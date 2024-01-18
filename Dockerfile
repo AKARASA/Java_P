@@ -16,7 +16,7 @@ FROM consol/tomcat-7.0:latest
 COPY --from=builder /app/target/Web1.war /usr/local/tomcat/webapps/
 
 # Run as a non-root user (adjust if the base image uses a different user)
-USER tomcat
+USER admin
 
 # Expose the servlet container's port
 EXPOSE 8080
