@@ -21,7 +21,13 @@ RUN groupadd -r tomcat && useradd -r -g tomcat tomcat
 # Copy the WAR file from the builder stage to the Tomcat image
 COPY --from=builder /app/target/Web1.war /usr/local/tomcat/webapps/
 
-# Run as a non-root user (adjust if the base image uses a different user)
+# Grant read permissions to the tomcat user for server.xml
+RUN chmod +r /usr/local/tomcat/conf/server.xml
+
+# Adjust ownership for Tomcat directories
+RUN chown -R tomcat:tomcat /usr/local/tomcat
+
+# Run as the tomcat user
 USER tomcat
 
 # Expose the servlet container's port
