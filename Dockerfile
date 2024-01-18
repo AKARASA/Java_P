@@ -1,40 +1,23 @@
-# Build stage (using a vulnerable Maven version)
-FROM debricked/vulnerable-functionality-maven:v0.5.0 AS builder
-WORKDIR /app
+# Use an official Maven runtime as a parent image
+FROM maven:3.8.4-openjdk-11-slim AS build
 
-# Create the tomcat user
-RUN groupadd -r tomcat && useradd -r -g tomcat tomcat
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-# Copy only necessary files for a more efficient build
-COPY pom.xml .
-COPY src .
+# Copy the project files into the container
+COPY . .
 
-# Build the application with Maven
-RUN mvn clean package
+# Build the application
+RUN mvn clean install
 
-# Final stage (using a vulnerable Tomcat image)
-FROM tomcat:latest
+# Use an official Tomcat runtime as a parent image
+FROM tomcat:9-jdk11-openjdk-slim
 
-# Create the tomcat user in the final stage as well
-RUN groupadd -r tomcat && useradd -r -g tomcat tomcat
+# Copy the war file from the Maven build stage to the Tomcat webapps directory
+COPY --from=build /usr/src/app/target/your-servlet-app.war /usr/local/tomcat/webapps/
 
-# Copy the WAR file from the builder stage to the Tomcat image
-COPY --from=builder /app/target/Web1.war /usr/local/tomcat/webapps/
-
-# Copy the server.xml from the builder stage to the Tomcat image
-COPY --from=builder /usr/local/tomcat/conf/server.xml /usr/local/tomcat/conf/server.xml
-
-# Grant read permissions to the tomcat user for server.xml
-RUN chmod +r /usr/local/tomcat/conf/server.xml
-
-# Adjust ownership for Tomcat directories
-RUN chown -R tomcat:tomcat /usr/local/tomcat
-
-# Run as the tomcat user
-USER tomcat
-
-# Expose the servlet container's port
+# Expose the default Tomcat port
 EXPOSE 8080
 
-# Note: This Dockerfile uses images with known vulnerabilities for educational/testing purposes.
-# It is NOT recommended for production or sensitive environments.
+# Start Tomcat
+CMD ["catalina.sh", "run"]
