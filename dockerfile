@@ -17,4 +17,4 @@ COPY src ./src
 RUN mvn package
 
 # Set the startup command to run the application (assuming the WAR file is in the target directory)
-CMD ["java", "-jar", "target/your-app-name.war"]
+CMD ["java", "-jar", "target/Web1.war"]
