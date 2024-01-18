@@ -1,4 +1,4 @@
-FROM petechua/docker-vulnerable-dvwa:latest
+FROM petechua/docker-vulnerable-dvwa:1.0
 
 # Install Maven
 RUN apt-get update && apt-get install -y maven
