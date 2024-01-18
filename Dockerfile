@@ -6,11 +6,9 @@ RUN apt-get update && apt-get install -y maven
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy only necessary files
+# Copy only necessary files and build the WAR file within the container
 COPY pom.xml /app/pom.xml
 COPY src /app/src
-
-# Build the WAR file within the container
 RUN mvn clean package
 
 # Expose the servlet container's port (if not already exposed in the base image)
