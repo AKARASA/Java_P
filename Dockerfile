@@ -1,7 +1,8 @@
 # Build stage (using a vulnerable Maven version)
 FROM debricked/vulnerable-functionality-maven:v0.5.0 AS builder
 WORKDIR /app
-
+# Create the tomcat user
+RUN groupadd -r tomcat && useradd -r -g tomcat tomcat
 # Copy only necessary files for a more efficient build
 COPY pom.xml .
 COPY src .
