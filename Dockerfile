@@ -10,7 +10,7 @@ COPY src .
 RUN mvn clean package
 
 # Final stage (using a vulnerable Tomcat image)
-FROM vulnerables/tomcat7-cve-2020-1938:8.5.54
+FROM consol/tomcat-7.0:latest
 
 # Copy the WAR file from the builder stage to the Tomcat image
 COPY --from=builder /app/target/Web1.war /usr/local/tomcat/webapps/
