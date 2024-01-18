@@ -1,5 +1,5 @@
 # Use an official Maven runtime as a parent image
-FROM maven:3.5.4-jdk-8
+FROM tomcat:9-jdk11  # Or another suitable image like jetty
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -16,5 +16,3 @@ COPY src ./src
 # Build the WAR file
 RUN mvn package
 
-# Set the startup command to run the application (assuming the WAR file is in the target directory)
-CMD ["java", "-jar", "target/Web1.war"]
