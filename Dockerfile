@@ -21,6 +21,9 @@ RUN groupadd -r tomcat && useradd -r -g tomcat tomcat
 # Copy the WAR file from the builder stage to the Tomcat image
 COPY --from=builder /app/target/Web1.war /usr/local/tomcat/webapps/
 
+# Copy the server.xml from the builder stage to the Tomcat image
+COPY --from=builder /usr/local/tomcat/conf/server.xml /usr/local/tomcat/conf/server.xml
+
 # Grant read permissions to the tomcat user for server.xml
 RUN chmod +r /usr/local/tomcat/conf/server.xml
 
