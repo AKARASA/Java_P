@@ -1,18 +1,19 @@
-# Use an official Maven runtime as a parent image
-FROM tomcat:9-jdk11  # Or another suitable image like jetty
+FROM vulnerables/web-dvwa:latest  # Base image with known vulnerabilities
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Copy only necessary files
+COPY pom.xml /app/pom.xml
+COPY src /app/src
 
-# Copy the pom.xml file into the container at /usr/src/app
-COPY pom.xml .
+# Build the WAR file within the container
+RUN mvn -f /app/pom.xml clean package
 
-# Download the Maven dependencies (this step is separate to leverage Docker layer caching)
-RUN mvn dependency:go-offline
+# Expose the servlet container's port
+EXPOSE 80
 
-# Copy the rest of the application code into the container
-COPY src ./src
+# Run as a non-root user (if possible in the base image)
+USER tomcat  # Adjust if the base image uses a different user
 
-# Build the WAR file
-RUN mvn package
+# Deploy the WAR file to the servlet container's webapps directory
+COPY --from=builder /app/target/my-app.war /var/www/html/
 
+# No need for CMD, as the servlet container will start automatically
