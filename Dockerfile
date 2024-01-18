@@ -1,4 +1,4 @@
-FROM petechua/docker-vulnerable-dvwa  # Base image with known vulnerabilities
+FROM petechua/docker-vulnerable-dvwa :latest  # Base image with known vulnerabilities
 
 # Copy only necessary files
 COPY pom.xml /app/pom.xml
