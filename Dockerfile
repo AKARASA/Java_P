@@ -19,7 +19,7 @@ USER tomcat
 
 # Deploy the WAR file to the servlet container's webapps directory
 # Assuming the WAR file name is my-app.war
-COPY target/my-app.war /usr/local/tomcat/webapps/
+COPY target/Web1.war /usr/local/tomcat/webapps/
 
 # CMD to start the servlet container (assuming the default CMD from the base image is suitable)
 CMD ["catalina.sh", "run"]
