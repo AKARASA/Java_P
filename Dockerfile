@@ -12,10 +12,10 @@ COPY src /app/src
 RUN mvn clean package
 
 # Expose the servlet container's port (if not already exposed in the base image)
-EXPOSE 8080  # Adjust the port number based on your application
+EXPOSE 9001  
 
 # Run as a non-root user (if possible in the base image)
-USER tomcat  # Adjust if the base image uses a different user
+USER tomcat
 
 # Deploy the WAR file to the servlet container's webapps directory
 # Assuming the WAR file name is my-app.war
