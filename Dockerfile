@@ -14,7 +14,7 @@ RUN mvn clean install
 FROM tomcat:jre21-temurin-jammy
 
 # Copy the war file from the Maven build stage to the Tomcat webapps directory
-COPY --from=build /usr/src/app/target/your-servlet-app.war /usr/local/tomcat/webapps/
+COPY --from=build /usr/src/app/target/Web1.war /usr/local/tomcat/webapps/
 
 # Expose the default Tomcat port
 EXPOSE 8080
